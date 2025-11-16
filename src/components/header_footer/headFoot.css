@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+    --blue_jeans: #4A89DC;
+    --grey_black: #2C2C2B;
+    --white: #fff; 
+    --text_grey: #727272;
+    --bg_grey: #F5F5F5;
+    --default_font: "Open Sans";
+    --sunflower: #FFCE54;
+    --blue_jeans_hover: #5D9CEC;
+    --green: #A0D468;   
+    --blood: #D74655;
+    --sky: #4B89DC;
+    --flame: #ef6144;
+}
+
+ul {
+    list-style: none;
+}
+
+.body {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: var(--white);
+    height: 44px;
+}
+
+.header_objects {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;  
+}
+
+.logo span {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.logo span:hover {
+    color: var(--sunflower);
+}
+
+.header_links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.header_link {
+    font-size: 14px;
+    color: var(--grey_black)
+}
+
+.header_link:hover {
+    color: var(--text_grey);
+}
+
+.header_links li{
+    transition: all 0.3s ease;
+}
+
+.header_links li:hover {
+    transform: scale(1.05);
+}
+
+.log_out_button {
+    padding: 5px 10px 5px 10px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: var(--blue_jeans);
+    color: var(--white);
+
+    transition: all 0.3s ease;
+}
+
+.log_out_button:hover {
+    background-color: var(--blue_jeans_hover);
+    transform: scale(1.05);
+}
+
+.log_out_button:active {
+    transform: scale(0.99);
+}
+
+.user_ {
+    background-color: transparent;
+
+    border: 2px solid var(--grey_black);
+    border-radius: 5px;
+
+    font-weight: 600;
+
+    width: 25px;
+    height: 25px;
+
+    transition: all 0.3s ease;
+}
+
+.user_:hover {
+    transform: scale(1.05);
+    background-color: var(--grey_black);
+    color: var(--white);
+}
+
+.buttons_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.footer_logo span{
+    font-size: 32px;
+    color: var(--grey_black);
+
+    transition: all 0.3s ease;
+
+    cursor: pointer;
+}
+
+.footer_logo span:hover {
+    color: var(--sunflower);
+}
+
+.footer_logo_desc {
+    font-size: 14px;
+    color: var(--grey_black);
+}
+
+.footer_links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text_wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer {
+    background-color: var(--white);
+}
+
+.whatsapp_link {
+    color: var(--grey_black);
+    border-radius: 5px;
+    padding: 5px;
+
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.whatsapp_link:hover {
+    color: var(--white);
+    background-color: var(--green);
+}
+
+.telegram_link {
+    color: var(--grey_black);
+    border-radius: 5px;
+    padding: 5px;
+
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.telegram_link:hover {
+    color: var(--white);
+    background-color: var(--blue_jeans_hover);
+}
+
+.instagramm_link {
+    color: var(--grey_black);
+    border-radius: 5px;
+    padding: 5px;
+
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.instagramm_link:hover {
+    color: var(--white);
+    background-color: var(--blood);
+}
+
+.google_email_link {
+    color: var(--grey_black);
+    border-radius: 5px;
+    padding: 5px;
+
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.google_email_link:hover {
+    color: var(--white);
+    background-color: var(--sky);
+}
+
+.daily_streak {
+    font-weight: 700;
+    font-size: 14px;
+
+    border-radius: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 7px;
+    padding-right: 7px;
+
+    background: linear-gradient(var(--flame), var(--blood), var(--blue_jeans));
+    color: var(--white);
+
+}

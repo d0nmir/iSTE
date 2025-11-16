@@ -1,0 +1,63 @@
+:root {
+    --blue_jeans: #4A89DC;
+    --grey_black: #2C2C2B;
+    --white: #fff; 
+    --text_grey: #727272;
+    --bg_grey: #F5F5F5;
+    --default_font: "Open Sans";
+    --sunflower: #FFCE54;
+    --blue_jeans_hover: #5D9CEC;
+    --green: #A0D468;   
+    --blood: #D74655;
+    --sky: #4B89DC;
+}
+
+
+.about_us_title {
+    text-align: center;
+
+    font-weight: 400;
+    font-size: 64px;
+
+    padding: 100px 0;
+}
+
+.about_us_text {
+    width: 800px;
+}
+
+.about_us_text_ {
+    color: var(--white);
+}
+
+.text_title {
+    color: var(--white);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.welcome_section_ {
+    padding: 128px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.welcome_section {
+    background-color: var(--sky);
+}
+
+.mission_section {
+    background: url("src/assets/icons/room.gif") center/cover no-repeat;
+}
+
+.values_section {
+    background-color: var(--grey_black);
+}
+
+.text_title_2 {
+    font-weight: 600;
+    font-size: 20px;
+
+    color: var(--white);
+}
+

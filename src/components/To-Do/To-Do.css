@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+    --blue_jeans: #4A89DC;
+    --grey_black: #2C2C2B;
+    --white: #fff; 
+    --text_grey: #727272;
+    --bg_grey: #F5F5F5;
+    --default_font: "Open Sans";
+    --red: red;
+
+}
+
+body {
+    margin: 0;
+    font-family: var(--default_font);
+    background-color: var(--bg_grey);
+}
+
+.container {
+    max-width: 1200px;
+    margin:0 auto;
+}
+
+.groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+
+.group_wrapper {
+    background-color: var(--white);
+    width: 220px;
+
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.group_wrapper:hover {
+    transform: scale(1.05);
+}
+
+
+.group_input {
+    margin-top: 70px;
+    margin-bottom: 25px;
+
+    height: 32px;
+    width: 1188px;
+
+    padding-left: 10px;
+
+    font-size: 12px;
+
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.group_input:hover {
+    transform: scale(1.01);
+}
+
+.group_name {
+    font-size: 14px;
+    font-weight: 500;
+
+    color: var(--text_grey);
+
+    display: inline;
+
+    margin: 0;
+    padding-top: 8px;
+}
+
+.delete_button {
+    border: none;
+    background-color: transparent;
+
+    padding-top: 10px;
+    color: var(--text_grey);
+    
+    transition: all 0.3s ease;
+}
+
+.delete_button:hover {
+    color: var(--red);
+}
+
+.task_state {
+    font-size: 12px;
+    color: var(--text_grey);
+
+    margin: 0;
+    margin: 6px 0px 6px 8px;
+}
+
+.task_input {
+    height: 22px;
+    width: 188px;
+
+    padding-left: 10px;
+
+    font-size: 12px;
+
+    border: 1px solid var(--text_grey);
+    border-radius: 3px;
+
+    margin-left: 10px;
+    margin-top: 5px;
+
+    margin-bottom: 10px;
+
+    transition: all 0.3s ease;
+}
+
+.task_input:hover {
+    transform: scale(1.05);
+}
+
+.task_check {
+    margin: 0;
+    height: 12px;
+    width: 12px;
+
+    margin: 10px 0px 3px 10px;
+}
+
+.task_name {
+    font-size: 12px;
+    color: var(--grey_black);
+}
+
+.task_delete_button {
+    color: var(--text_grey);
+    font-size: 12px;
+
+    border: none;
+    background-color: transparent;
+    transition: all 0.3s scale;
+}
+
+.task_delete_button:hover {
+    color: var(--red);
+}
+
+.group_desc {
+    margin-top: 10px;
+    margin-left: 8px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.task_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+

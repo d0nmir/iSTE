@@ -1,0 +1,75 @@
+:root {
+    --blue_jeans: #4A89DC;
+    --grey_black: #2C2C2B;
+    --white: #fff; 
+    --text_grey: #727272;
+    --bg_grey: #F5F5F5;
+    --default_font: "Open Sans";
+    --blue_jeans_hover: #5D9CEC;
+}
+
+.guide-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.guide-container h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.guide-category {
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--white);
+  border-radius: 12px;
+}
+
+.guide-category h2 {
+  margin-bottom: 8px;
+}
+
+.weekly-routine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.routine-day {
+  flex: 1 1 120px;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.routine-day h4 {
+  margin-bottom: 6px;
+}
+
+.routine-day ul {
+  padding-left: 18px;
+}
+
+.routine-day li {
+  margin-bottom: 4px;
+}
+
+.routine-tasks div {
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.routine-tasks div:hover {
+  background: #e0f0ff; /* лёгкий голубой фон */
+  color: #0077cc; /* меняем цвет текста */
+  transform: scale(1.05);
+}
+
+

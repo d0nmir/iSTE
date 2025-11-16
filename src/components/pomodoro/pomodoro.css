@@ -1,0 +1,99 @@
+:root {
+    --blue_jeans: #4A89DC;
+    --grey_black: #2C2C2B;
+    --white: #fff; 
+    --text_grey: #727272;
+    --bg_grey: #F5F5F5;
+    --default_font: "Open Sans";
+    --sunflower: #FFCE54;
+    --blue_jeans_hover: #5D9CEC;
+    --green: #A0D468;   
+    --blood: #D74655;
+    --sky: #4B89DC;
+    --flame: #ef6144;
+}
+
+.pomodoro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 260px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.pomodoro-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pomodoro-time {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.pomodoro-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pomodoro-buttons button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pomodoro-buttons button:hover {
+  opacity: 0.85;
+}
+
+.pomodoro-mode-switch {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.pomodoro-mode-switch button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: #3b82f6;
+  color: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pomodoro-mode-switch button:hover {
+  background: #1e60d6;
+}
+
+/* Цветовые темы по режимам */
+.pomodoro-container.work {
+  background: var(--blue_jeans);
+}
+
+.pomodoro-container.work .pomodoro-time {
+    color: var(--white);
+}
+
+.pomodoro-container.work .pomodoro-mode-switch button {
+    background-color: var(--white);
+    color: var(--grey_black);
+    font-weight: bold;
+}
+
+.pomodoro-container.short {
+  background: #ddffdd;
+}
+
+.pomodoro-container.long {
+  background: #dde7ff;
+}
