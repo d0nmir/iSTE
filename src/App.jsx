@@ -19,8 +19,11 @@ function App() {
         <Route path='/login' element={<Login/>} />
         <Route path='/todo' element={<div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                                                   <Header />
-                                                  <div style={{ flex: 1 }}>
-                                                    <Todo />
+                                                  <div className="main_" style={{ flex: 1 }}>
+                                                    <div>
+                                                        <Todo />
+                                                    </div>
+                                            
                                                   </div>
                                                   <Footer />
                                                 </div>}/>

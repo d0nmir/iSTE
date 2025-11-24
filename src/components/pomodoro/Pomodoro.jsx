@@ -56,61 +56,63 @@ export default function PomodoroTimer() {
   };
 
   return (
-    <div className={`pomodoro-container ${mode}`}>
-      <h2 className="pomodoro-title">
-        {mode === "work" && "Focus Time"}
-        {mode === "short" && "Short break"}
-        {mode === "long" && "Long Break"}
-      </h2>
+    <div className="container">
+      <div className={`pomodoro-container ${mode}`}>
+        <h2 className="pomodoro-title">
+          {mode === "work" && "Focus Time"}
+          {mode === "short" && "Short break"}
+          {mode === "long" && "Long Break"}
+        </h2>
 
-      <div className="pomodoro-time">{formatTime()}</div>
+        <div className="pomodoro-time">{formatTime()}</div>
 
-      <div className="pomodoro-buttons">
-        {!isRunning ? (
-          <button onClick={() => setIsRunning(true)}>Start</button>
-        ) : (
-          <button onClick={() => setIsRunning(false)}>Pause</button>
-        )}
-        <button
-          onClick={() => {
-            if (mode === "work") setTime(WORK_TIME);
-            if (mode === "short") setTime(SHORT_BREAK);
-            if (mode === "long") setTime(LONG_BREAK);
-            setIsRunning(false);
-          }}
-        >
-          Reset
-        </button>
-      </div>
+        <div className="pomodoro-buttons">
+          {!isRunning ? (
+            <button onClick={() => setIsRunning(true)}>Start</button>
+          ) : (
+            <button onClick={() => setIsRunning(false)}>Pause</button>
+          )}
+          <button
+            onClick={() => {
+              if (mode === "work") setTime(WORK_TIME);
+              if (mode === "short") setTime(SHORT_BREAK);
+              if (mode === "long") setTime(LONG_BREAK);
+              setIsRunning(false);
+            }}
+          >
+            Reset
+          </button>
+        </div>
 
-      <div className="pomodoro-mode-switch">
-        <button
-          onClick={() => {
-            setMode("work");
-            setTime(WORK_TIME);
-            setIsRunning(false);
-          }}
-        >
-          Focus Time
-        </button>
-        <button
-          onClick={() => {
-            setMode("short");
-            setTime(SHORT_BREAK);
-            setIsRunning(false);
-          }}
-        >
-          Short Break
-        </button>
-        <button
-          onClick={() => {
-            setMode("long");
-            setTime(LONG_BREAK);
-            setIsRunning(false);
-          }}
-        >
-          Long Break
-        </button>
+        <div className="pomodoro-mode-switch">
+          <button
+            onClick={() => {
+              setMode("work");
+              setTime(WORK_TIME);
+              setIsRunning(false);
+            }}
+          >
+            Focus Time
+          </button>
+          <button
+            onClick={() => {
+              setMode("short");
+              setTime(SHORT_BREAK);
+              setIsRunning(false);
+            }}
+          >
+            Short Break
+          </button>
+          <button
+            onClick={() => {
+              setMode("long");
+              setTime(LONG_BREAK);
+              setIsRunning(false);
+            }}
+          >
+            Long Break
+          </button>
+        </div>
       </div>
     </div>
   );

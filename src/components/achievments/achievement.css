@@ -23,6 +23,11 @@
     image-rendering: crisp-edges;
 }
 
+html.dark .achievement_image {
+    background-color: #3D3D3D;
+}
+
+
 .achievement_title {
     margin-top: 70px;
     font-size: 20px;
@@ -32,6 +37,10 @@
 
     margin-bottom: 32px;
     text-align: center;
+}
+
+html.dark .achievement_title {
+    color: white;
 }
 
 .locked_achievement {

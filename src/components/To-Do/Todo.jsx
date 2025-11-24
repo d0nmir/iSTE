@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { db, auth } from "../../config/firebase";
 import {
   collection,
@@ -172,67 +172,184 @@ function Todo() {
     await checkAchievements(updatedGroups);
   };
 
+  const WORK_TIME = 25 * 60;
+    const SHORT_BREAK = 5 * 60;
+    const LONG_BREAK = 15 * 60;
+  
+    const [time, setTime] = useState(WORK_TIME);
+    const [mode, setMode] = useState("work");
+    const [isRunning, setIsRunning] = useState(false);
+  
+    const bellRef = useRef(null);
+  
+    useEffect(() => {
+      bellRef.current = new Audio("https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg");
+    }, []);
+  
+    useEffect(() => {
+      let interval = null;
+  
+      if (isRunning) {
+        interval = setInterval(() => {
+          setTime((prev) => {
+            if (prev <= 1) {
+              handleEnd();
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }
+  
+      return () => clearInterval(interval);
+    }, [isRunning, mode]);
+  
+    const handleEnd = () => {
+      if (bellRef.current) bellRef.current.play();
+  
+      if (mode === "work") {
+        setMode("short");
+        setTime(SHORT_BREAK);
+      } else {
+        setMode("work");
+        setTime(WORK_TIME);
+      }
+      setIsRunning(false);
+    };
+  
+    const formatTime = () => {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      return `${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
+    };
+
   return (
     <div className="container">
+      <div className="tod_container">
       <div>
-        <input
-          type="text"
-          placeholder="Enter group name..."
-          value={newGroupName}
-          className="group_input"
-          onChange={(e) => setNewGroupName(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") addGroup(); }}
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Enter group name..."
+            value={newGroupName}
+            className="group_input"
+            onChange={(e) => setNewGroupName(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") addGroup(); }}
+          />
+        </div>
+
+        <div className="groups">
+          {taskGroups.map((group) => (
+            <div key={group.id} className="group_wrapper">
+              <div className="group_desc">
+                <h2 className="group_name">{group.task_group_name}</h2>
+                <button className="delete_button" onClick={() => deleteGroup(group.id)}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_192_35)">
+                  <path d="M1.75 3.50008H2.91667M2.91667 3.50008H12.25M2.91667 3.50008L2.91667 11.6667C2.91667 11.9762 3.03958 12.2729 3.25838 12.4917C3.47717 12.7105 3.77391 12.8334 4.08333 12.8334H9.91667C10.2261 12.8334 10.5228 12.7105 10.7416 12.4917C10.9604 12.2729 11.0833 11.9762 11.0833 11.6667V3.50008M4.66667 3.50008V2.33341C4.66667 2.024 4.78958 1.72725 5.00838 1.50846C5.22717 1.28966 5.52391 1.16675 5.83333 1.16675H8.16667C8.47609 1.16675 8.77283 1.28966 8.99162 1.50846C9.21042 1.72725 9.33333 2.024 9.33333 2.33341V3.50008M5.83333 6.41675V9.91675M8.16667 6.41675V9.91675" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_192_35">
+                  <rect width="14" height="14" fill="white"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                </button>
+              </div>
+
+              {group.tasks.length === 0 ? (
+                <p className="task_state">No tasks</p>
+              ) : (
+                group.tasks.map((task) => (
+                  <div key={task.id} className="task_wrapper">
+                    <input
+                      type="checkbox"
+                      className="task_check"
+                      checked={task.completed}
+                      onChange={() => toggleTask(group.id, task.id, task.completed)}
+                    />
+                    <span className="task_name">{task.task_name}</span>
+                    <button className="task_delete_button" onClick={() => deleteTask(group.id, task.id)}>delete</button>
+                  </div>
+                ))
+              )}
+
+              <div>
+                <input
+                  className="task_input"
+                  type="text"
+                  placeholder="Enter the task name..."
+                  value={newTasks[group.id] || ""}
+                  onChange={(e) => setNewTasks({ ...newTasks, [group.id]: e.target.value })}
+                  onKeyDown={(e) => { if (e.key === "Enter") addTask(group.id); }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="groups">
-        {taskGroups.map((group) => (
-          <div key={group.id} className="group_wrapper">
-            <div className="group_desc">
-              <h2 className="group_name">{group.task_group_name}</h2>
-              <button className="delete_button" onClick={() => deleteGroup(group.id)}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_192_35)">
-                <path d="M1.75 3.50008H2.91667M2.91667 3.50008H12.25M2.91667 3.50008L2.91667 11.6667C2.91667 11.9762 3.03958 12.2729 3.25838 12.4917C3.47717 12.7105 3.77391 12.8334 4.08333 12.8334H9.91667C10.2261 12.8334 10.5228 12.7105 10.7416 12.4917C10.9604 12.2729 11.0833 11.9762 11.0833 11.6667V3.50008M4.66667 3.50008V2.33341C4.66667 2.024 4.78958 1.72725 5.00838 1.50846C5.22717 1.28966 5.52391 1.16675 5.83333 1.16675H8.16667C8.47609 1.16675 8.77283 1.28966 8.99162 1.50846C9.21042 1.72725 9.33333 2.024 9.33333 2.33341V3.50008M5.83333 6.41675V9.91675M8.16667 6.41675V9.91675" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-                <defs>
-                <clipPath id="clip0_192_35">
-                <rect width="14" height="14" fill="white"/>
-                </clipPath>
-                </defs>
-                </svg>
-              </button>
-            </div>
+      <div>
+        <div className={`pomodoro-container ${mode}`}>
+          <h2 className="pomodoro-title">
+            {mode === "work" && "Focus Time"}
+            {mode === "short" && "Short break"}
+            {mode === "long" && "Long Break"}
+          </h2>
 
-            {group.tasks.length === 0 ? (
-              <p className="task_state">No tasks</p>
+          <div className="pomodoro-time">{formatTime()}</div>
+
+          <div className="pomodoro-buttons">
+            {!isRunning ? (
+              <button onClick={() => setIsRunning(true)}>Start</button>
             ) : (
-              group.tasks.map((task) => (
-                <div key={task.id} className="task_wrapper">
-                  <input
-                    type="checkbox"
-                    className="task_check"
-                    checked={task.completed}
-                    onChange={() => toggleTask(group.id, task.id, task.completed)}
-                  />
-                  <span className="task_name">{task.task_name}</span>
-                  <button className="task_delete_button" onClick={() => deleteTask(group.id, task.id)}>delete</button>
-                </div>
-              ))
+              <button onClick={() => setIsRunning(false)}>Pause</button>
             )}
-
-            <div>
-              <input
-                className="task_input"
-                type="text"
-                placeholder="Enter the task name..."
-                value={newTasks[group.id] || ""}
-                onChange={(e) => setNewTasks({ ...newTasks, [group.id]: e.target.value })}
-                onKeyDown={(e) => { if (e.key === "Enter") addTask(group.id); }}
-              />
-            </div>
+            <button
+              onClick={() => {
+                if (mode === "work") setTime(WORK_TIME);
+                if (mode === "short") setTime(SHORT_BREAK);
+                if (mode === "long") setTime(LONG_BREAK);
+                setIsRunning(false);
+              }}
+            >
+              Reset
+            </button>
           </div>
-        ))}
+
+          <div className="pomodoro-mode-switch">
+            <button
+              onClick={() => {
+                setMode("work");
+                setTime(WORK_TIME);
+                setIsRunning(false);
+              }}
+            >
+              Focus Time
+            </button>
+            <button
+              onClick={() => {
+                setMode("short");
+                setTime(SHORT_BREAK);
+                setIsRunning(false);
+              }}
+            >
+              Short Break
+            </button>
+            <button
+              onClick={() => {
+                setMode("long");
+                setTime(LONG_BREAK);
+                setIsRunning(false);
+              }}
+            >
+              Long Break
+            </button>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   );

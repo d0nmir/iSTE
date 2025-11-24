@@ -83,7 +83,7 @@ async function unlockGuideAchievement() {
 export default function Guide() {
   return (
     <div className="guide-container">
-      <h1>GUIDES</h1>
+      <h1 className="guide_title">GUIDES</h1>
       {weeklyRoutines.map((item, index) => (
         <div
           key={index}

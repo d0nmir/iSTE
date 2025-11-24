@@ -22,6 +22,10 @@
     padding: 100px 0;
 }
 
+html.dark .about_us_title {
+    color: #F5F5F5;
+}
+
 .about_us_text {
     width: 800px;
 }
@@ -48,6 +52,10 @@
 
 .mission_section {
     background: url("src/assets/icons/room.gif") center/cover no-repeat;
+}
+
+html.dark .mission_section {
+    background: url("src/assets/icons/car.gif") center/cover no-repeat;
 }
 
 .values_section {

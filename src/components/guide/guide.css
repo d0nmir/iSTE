@@ -26,6 +26,11 @@
   border-radius: 12px;
 }
 
+html.dark .guide-category {
+  background: #222222;
+  color: #F5F5F5;
+}
+
 .guide-category h2 {
   margin-bottom: 8px;
 }
@@ -42,6 +47,11 @@
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+html.dark .routine-day {
+  background: #1a1a1a;
+  color: #F5F5F5;
 }
 
 .routine-day h4 {
@@ -67,9 +77,19 @@
 }
 
 .routine-tasks div:hover {
-  background: #e0f0ff; /* лёгкий голубой фон */
-  color: #0077cc; /* меняем цвет текста */
+  background: #e0f0ff; 
+  color: #0077cc; 
   transform: scale(1.05);
+}
+
+html.dark .routine-tasks div:hover {
+  background: #3d3d3d; 
+  color: white; 
+  transform: scale(1.05);
+}
+
+html.dark .guide_title {
+  color: white;
 }
 
 
