@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { db, auth } from "../../config/firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
 
 import firstGroupGif from "../../assets/icons/first_group.gif";
 import firstTodoGif from "../../assets/icons/first_todo.gif";
@@ -24,6 +25,7 @@ function Achievements() {
   };
 
   const refs = useRef({});
+  const bellRef = useRef(new Audio("/path/to/sound.mp3"));
 
   useEffect(() => {
     if (!userId) return;
@@ -64,6 +66,34 @@ function Achievements() {
     });
   }, [achievements]);
 
+  useEffect(() => {
+    achievements.forEach(async (ach) => {
+      if (ach.unlocked && !ach.notified) {
+        toast.success(<div className="toast-content">
+            <img src={gifMap[ach.id]} alt={ach.title} className="toast-gif" />
+            <span>{ach.title}</span>
+          </div>,
+          {
+            className: "custom-toast",
+            bodyClassName: "custom-toast-body",
+            autoClose: 5000,
+          });
+
+        if (bellRef.current) {
+          bellRef.current.currentTime = 0;
+          bellRef.current.play().catch(() => {});
+        }
+
+        try {
+          const achRef = doc(db, "users", userId, "achievements", ach.id);
+          await updateDoc(achRef, { notified: true });
+        } catch (error) {
+          console.error("Error updating notified:", error);
+        }
+      }
+    });
+  }, [achievements, userId]);
+
   if (loading) return null;
 
   return (
@@ -96,4 +126,3 @@ function Achievements() {
 }
 
 export default Achievements;
-

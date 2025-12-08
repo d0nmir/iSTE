@@ -8,6 +8,7 @@
     --bg_grey: #F5F5F5;
     --default_font: "Open Sans";
     --red: red;
+    --toastify-toast-min-height: 50px;
     
 
 }
@@ -26,7 +27,7 @@ html.dark body {
 
 .container {
     max-width: 1200px;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 .groups {
@@ -34,7 +35,7 @@ html.dark body {
   flex-wrap: wrap;
   gap: 25px;
   align-items: flex-start;
-  width: 800px;
+  width: 1200px;
 }
 
 
@@ -60,11 +61,11 @@ html.dark .group_wrapper {
 
 
 .group_input {
-    margin-top: 70px;
+    margin-top: 40px;
     margin-bottom: 25px;
 
     height: 32px;
-    width: 800px;
+    width: 1200px;
     margin-right: 90px;
 
     padding-left: 10px;
@@ -78,6 +79,7 @@ html.dark .group_wrapper {
 
 html.dark .group_input {
     background-color: #3D3D3D;
+    color: white;
 }
 
 .group_input:hover {
@@ -113,9 +115,18 @@ html.dark .group_name {
     background-color: transparent;
 
     padding-top: 10px;
-    color: var(--white);
+    color: var(--grey_black);
     
     transition: all 0.3s ease;
+}
+
+html.dark .delete_button {
+    color: var(--white);
+}
+
+
+html.dark .delete_button:hover {
+    color: var(--red);
 }
 
 .delete_button:hover {
@@ -151,7 +162,7 @@ html.dark .task_state {
 
     margin-left: 10px;
     margin-top: 5px;
-
+    
     margin-bottom: 10px;
 
     transition: all 0.3s ease;
@@ -160,7 +171,7 @@ html.dark .task_state {
 html.dark .task_input {
     height: 22px;
     width: 188px;
-
+    color: white;
     padding-left: 10px;
 
     font-size: 12px;
@@ -187,7 +198,7 @@ html.dark .task_input {
     height: 12px;
     width: 12px;
 
-    margin: 10px 0px 3px 10px;
+    margin: 5px 0px 5px 10px;
 }
 
 .task_name {
@@ -218,6 +229,10 @@ html.dark .task_delete_button {
     transition: all 0.3s scale;
 }
 
+html.dark .task_delete_button:hover {
+    color: var(--red);
+}
+
 .task_delete_button:hover {
     color: var(--red);
 }
@@ -233,6 +248,8 @@ html.dark .task_delete_button {
 .task_wrapper {
     display: flex;
     align-items: center;
+    max-width: 188px;
+    justify-content: space-between;
     gap: 10px;
     
 }
@@ -240,3 +257,55 @@ html.dark .task_delete_button {
 .tod_container {
     display: flex;
 }
+
+.custom-toast {
+    background-color: black;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    font-weight: bold;
+
+}
+
+.Toastify__toast {
+    border-radius: 4px ;
+    background-color: var(--grey_black);
+}
+
+html.dark .Toastify__toast {
+    background-color: var(--text_grey);
+}
+
+.toast-content span {
+    color: white;
+}
+
+.Toastify__progress-bar--success {
+    background-color: rgb(31, 34, 43);
+}
+
+
+
+.Toastify__toast  {
+    width: 250px;
+    height: 30px;
+    padding: 5px;
+    margin: 0px;
+}
+
+
+.toast-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 0px;
+}
+
+
+
+
+
+

@@ -318,7 +318,7 @@ html.dark .google_email_link:hover {
     padding-left: 7px;
     padding-right: 7px;
 
-    background: linear-gradient(var(--flame), var(--blood), var(--blue_jeans));
+    background-color: var(--flame);
     color: var(--white);
 
 }

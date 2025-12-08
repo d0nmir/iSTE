@@ -9,10 +9,13 @@ import Footer from './components/header_footer/Footer'
 import AboutUs from './components/about_us/AboutUs'
 import Pomodoro from './components/pomodoro/Pomodoro' 
 import Guide from './components/guide/Guide'
+import AudioPlayer from './components/audioPlayer/AudioPlayer'
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   return (
     <div>
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<Login/>}/>
         <Route path='/register' element={<Register/>} />
@@ -21,9 +24,10 @@ function App() {
                                                   <Header />
                                                   <div className="main_" style={{ flex: 1 }}>
                                                     <div>
+                                                        <Pomodoro/>
                                                         <Todo />
-                                                    </div>
-                                            
+                                                        
+                                                    </div>                           
                                                   </div>
                                                   <Footer />
                                                 </div>}/>
@@ -32,6 +36,7 @@ function App() {
                                                   <Header />
                                                   <div style={{ flex: 1 }}>
                                                     <Achievements />
+                                                    
                                                   </div>
                                                   <Footer />
                                                 </div>} />
@@ -39,6 +44,7 @@ function App() {
                                                   <Header />
                                                   <div style={{ flex: 1 }}>
                                                     <AboutUs />
+                                                    
                                                   </div>
                                                   <Footer />
                                                 </div>}/>
@@ -46,6 +52,7 @@ function App() {
                                                   <Header />
                                                   <div style={{ flex: 1 }}>
                                                     <Guide />
+                                                    
                                                   </div>
                                                   <Footer />
                                                 </div>}/>

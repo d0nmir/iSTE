@@ -1,0 +1,28 @@
+.play-btn {
+    border: none;
+    background-color: transparent;
+}
+
+.audio_state {
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+html.dark .audio_state {
+  filter: brightness(0) invert(1);
+}
+
+.music-player {
+    padding: 0;
+    margin: 0;
+}
+
+.audio_bg {
+    
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

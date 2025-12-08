@@ -19,11 +19,12 @@
   align-items: center;
   margin-left: 0;
   margin-right: 0;
-  background: #ffffff;
-  border-radius: 16px;
+  background: var(--green);
+  border-radius: 10px;
   padding: 24px;
-  max-width: 260px;
-  margin-top: 70px;
+  max-width: 1200px;
+  margin-top: 40px;
+  margin-bottom: 0;
 }
 
 .pomodoro-title {
@@ -35,6 +36,7 @@
 .pomodoro-time {
   font-size: 3rem;
   font-weight: bold;
+  color: #fff;
 }
 
 .pomodoro-buttons {
@@ -43,7 +45,7 @@
 }
 
 .pomodoro-buttons button {
-  padding: 8px 14px;
+  padding: 4px 14px;
   border: none;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -61,40 +63,60 @@
   margin-top: 0.5rem;
 }
 
-.pomodoro-mode-switch button {
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-  background: #3b82f6;
-  color: white;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
 .pomodoro-mode-switch button:hover {
-  background: #1e60d6;
+    transform: scale(1.03);
 }
 
-/* Цветовые темы по режимам */
+
+.btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: hsla(0, 0%, 100%, 0.529);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 3px solid hsla(0, 0%, 100%, 0.348);
+}
+
+.active-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+
+    color: white;
+    border: 3px solid white;
+
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.reset_button {
+  background: transparent;
+}
+
 .pomodoro-container.work {
-  background: var(--blue_jeans);
-}
-
-.pomodoro-container.work .pomodoro-time {
-    color: var(--white);
-}
-
-.pomodoro-container.work .pomodoro-mode-switch button {
-    background-color: var(--white);
-    color: var(--grey_black);
-    font-weight: bold;
+  background-image: url('../../assets/icons/work.gif');
+  background-size: cover;        
+  background-position: center;   
+  background-repeat: no-repeat;
 }
 
 .pomodoro-container.short {
-  background: #ddffdd;
+  background-image: url('../../assets/icons/short.gif');
+  background-size: cover;        
+  background-position: center;   
+  background-repeat: no-repeat;
 }
 
 .pomodoro-container.long {
-  background: #dde7ff;
+  background-image: url('../../assets/icons/long.gif');
+  background-size: cover;        
+  background-position: center;   
+  background-repeat: no-repeat;
 }

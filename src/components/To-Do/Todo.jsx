@@ -7,18 +7,80 @@ import {
   getDocs,
   deleteDoc,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { achievementsConditions } from "../achievments/achievmentCondition";
 import { achievementsList } from "../achievments/achievmentsList"; 
 import "./To-Do.css";
+import { ToastContainer, toast } from "react-toastify";
+import starIcon from "../../assets/icons/star.png";
+import achieve from '../../assets/sound/achieve.mp3';
+import { onAuthStateChanged } from "firebase/auth";
+
 
 function Todo() {
   const [taskGroups, setTaskGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState("");
   const [newTasks, setNewTasks] = useState({});
+  const [achievements, setAchievements] = useState([]);
 
-  const user = auth.currentUser;
-  const userId = user?.uid;
+  const [userId, setUserId] = useState(null);
+
+useEffect(() => {
+  const unsub = onAuthStateChanged(auth, (u) => {
+    setUserId(u ? u.uid : null);
+  });
+  return () => unsub();
+}, []);
+
+  const bellRef = useRef(null);
+
+  const gifMap = {
+    first_group_created: "/icons/first_group.gif",
+    first_todo_done: "/icons/first_todo.gif",
+    guide_read: "/icons/guide.gif",
+    delete_group_done: "/icons/delete_group.gif",
+  };
+
+  useEffect(() => {
+    bellRef.current = new Audio(achieve);
+  }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+    const ref = collection(db, "users", userId, "achievements");
+    const unsubscribe = onSnapshot(ref, (snapshot) => {
+      const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setAchievements(list);
+    });
+    return () => unsubscribe();
+  }, [userId]);
+
+  useEffect(() => {
+    achievements.forEach(async (ach) => {
+      if (ach.unlocked && !ach.notified) {
+        toast.success(
+          <div className="toast-content">
+            <img src={starIcon} className="toast-icon" />
+            <span>{ach.title}</span>
+          </div>,
+          { autoClose: 5000, toastClassName: "custom-toast", icon: false, position: "bottom-right"  }
+        );
+
+        if (bellRef.current) {
+          bellRef.current.currentTime = 0;
+          bellRef.current.play().catch(() => {});
+        }
+
+        try {
+          const achRef = doc(db, "users", userId, "achievements", ach.id);
+          await updateDoc(achRef, { notified: true });
+        } catch (err) {
+          console.error("Error updating notified:", err);
+        }
+      }
+    });
+  }, [achievements, userId]);
 
   useEffect(() => {
     if (!userId) return;
@@ -61,7 +123,7 @@ function Todo() {
     const userData = {
       task_group_count: groupsData.length,
       completed_tasks: completedTasks,
-      read_guide: false, 
+      read_guide: false,
     };
 
     for (let ach of achievementsList) {
@@ -127,36 +189,32 @@ function Todo() {
   };
 
   const deleteGroup = async (groupId) => {
-  if (!confirm("Delete group with all tasks?")) return;
+    const group = taskGroups.find((g) => g.id === groupId);
+    const allTasksCompleted = group?.tasks?.length > 0 && group.tasks.every((t) => t.completed);
 
-  const group = taskGroups.find((g) => g.id === groupId);
+    const tasksRef = collection(db, "users", userId, "task_group", groupId, "tasks");
+    const snapshot = await getDocs(tasksRef);
+    await Promise.all(
+      snapshot.docs.map((t) =>
+        deleteDoc(doc(db, "users", userId, "task_group", groupId, "tasks", t.id))
+      )
+    );
 
-  const allTasksCompleted = group?.tasks?.length > 0 && group.tasks.every((t) => t.completed);
+    await deleteDoc(doc(db, "users", userId, "task_group", groupId));
 
-  const tasksRef = collection(db, "users", userId, "task_group", groupId, "tasks");
-  const snapshot = await getDocs(tasksRef);
-  await Promise.all(
-    snapshot.docs.map((t) =>
-      deleteDoc(doc(db, "users", userId, "task_group", groupId, "tasks", t.id))
-    )
-  );
+    const updatedGroups = taskGroups.filter((g) => g.id !== groupId);
+    setTaskGroups(updatedGroups);
 
-  await deleteDoc(doc(db, "users", userId, "task_group", groupId));
+    if (allTasksCompleted) {
+      const achRef = doc(db, "users", userId, "achievements", "delete_group_done");
+      await updateDoc(achRef, {
+        unlocked: true,
+        dateUnlocked: new Date().toISOString(),
+      });
+    }
 
-  const updatedGroups = taskGroups.filter((g) => g.id !== groupId);
-  setTaskGroups(updatedGroups);
-
-  if (allTasksCompleted) {
-    const achRef = doc(db, "users", userId, "achievements", "delete_group_done");
-    await updateDoc(achRef, {
-      unlocked: true,
-      dateUnlocked: new Date().toISOString(),
-    });
-  }
-
-  await checkAchievements(updatedGroups);
-};
-
+    await checkAchievements(updatedGroups);
+  };
 
   const toggleTask = async (groupId, taskId, current) => {
     const ref = doc(db, "users", userId, "task_group", groupId, "tasks", taskId);
@@ -172,61 +230,9 @@ function Todo() {
     await checkAchievements(updatedGroups);
   };
 
-  const WORK_TIME = 25 * 60;
-    const SHORT_BREAK = 5 * 60;
-    const LONG_BREAK = 15 * 60;
-  
-    const [time, setTime] = useState(WORK_TIME);
-    const [mode, setMode] = useState("work");
-    const [isRunning, setIsRunning] = useState(false);
-  
-    const bellRef = useRef(null);
-  
-    useEffect(() => {
-      bellRef.current = new Audio("https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg");
-    }, []);
-  
-    useEffect(() => {
-      let interval = null;
-  
-      if (isRunning) {
-        interval = setInterval(() => {
-          setTime((prev) => {
-            if (prev <= 1) {
-              handleEnd();
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
-      }
-  
-      return () => clearInterval(interval);
-    }, [isRunning, mode]);
-  
-    const handleEnd = () => {
-      if (bellRef.current) bellRef.current.play();
-  
-      if (mode === "work") {
-        setMode("short");
-        setTime(SHORT_BREAK);
-      } else {
-        setMode("work");
-        setTime(WORK_TIME);
-      }
-      setIsRunning(false);
-    };
-  
-    const formatTime = () => {
-      const minutes = Math.floor(time / 60);
-      const seconds = time % 60;
-      return `${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`;
-    };
-
   return (
     <div className="container">
+      <ToastContainer />
       <div className="tod_container">
       <div>
         <div>
@@ -260,7 +266,7 @@ function Todo() {
               </div>
 
               {group.tasks.length === 0 ? (
-                <p className="task_state">No tasks</p>
+                <p className="task_state"></p>
               ) : (
                 group.tasks.map((task) => (
                   <div key={task.id} className="task_wrapper">
@@ -290,69 +296,10 @@ function Todo() {
           ))}
         </div>
       </div>
-
-      <div>
-        <div className={`pomodoro-container ${mode}`}>
-          <h2 className="pomodoro-title">
-            {mode === "work" && "Focus Time"}
-            {mode === "short" && "Short break"}
-            {mode === "long" && "Long Break"}
-          </h2>
-
-          <div className="pomodoro-time">{formatTime()}</div>
-
-          <div className="pomodoro-buttons">
-            {!isRunning ? (
-              <button onClick={() => setIsRunning(true)}>Start</button>
-            ) : (
-              <button onClick={() => setIsRunning(false)}>Pause</button>
-            )}
-            <button
-              onClick={() => {
-                if (mode === "work") setTime(WORK_TIME);
-                if (mode === "short") setTime(SHORT_BREAK);
-                if (mode === "long") setTime(LONG_BREAK);
-                setIsRunning(false);
-              }}
-            >
-              Reset
-            </button>
-          </div>
-
-          <div className="pomodoro-mode-switch">
-            <button
-              onClick={() => {
-                setMode("work");
-                setTime(WORK_TIME);
-                setIsRunning(false);
-              }}
-            >
-              Focus Time
-            </button>
-            <button
-              onClick={() => {
-                setMode("short");
-                setTime(SHORT_BREAK);
-                setIsRunning(false);
-              }}
-            >
-              Short Break
-            </button>
-            <button
-              onClick={() => {
-                setMode("long");
-                setTime(LONG_BREAK);
-                setIsRunning(false);
-              }}
-            >
-              Long Break
-            </button>
-          </div>
-        </div>
-      </div>
       </div>
     </div>
   );
 }
 
 export default Todo;
+
