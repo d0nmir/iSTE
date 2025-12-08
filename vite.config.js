@@ -5,7 +5,7 @@ export default defineConfig({
   base: "/<repo-name>/",
   plugins: [react()],
   build: {
-    outDir: 'dist'
+    outDir: 'build'
   }
 });
 
